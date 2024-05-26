@@ -1,118 +1,156 @@
-import { FollowCamera, MeshBuilder, SceneLoader, Vector3 } from "@babylonjs/core";
-
+import { ActionManager, ExecuteCodeAction, FollowCamera, MeshBuilder, PhysicsImpostor, SceneLoader, Vector3 } from "@babylonjs/core";
 import playerMesh  from "../assets/models/player.glb";
-import playerSki from "../assets/models/player_ski.glb";
 
-const SPEEDX = 30;
-const SPEEDZ = 10;
-var GRAVITY = 1.0;
-var VELOCITY = 0;
-var VELOCITY2 = 0;
-var DIRECTION = 0;
+var MOVEX = 10;
+var MOVEY = 4;
+var MOVEZ = 10;
 
+class Player{
+    constructor(){
+        this.name = "player";
+        this.inputMap = {};
+        this.camera;
+    }
 
-class Player {
-  constructor(name) {
-    this.name = name;
-    this.playerBox;
-    this.createBox();
+    loadPlayerOnScene(x,y,z,scene){
+        this.loadPlayer(x,y,z,scene).then(() => {
+            this.attachCamera(scene);
+        });
+        this.score = 0;
+    }
+
+    async loadPlayer(x,y,z,scene){
+        var player = await SceneLoader.ImportMeshAsync("", "", playerMesh, scene);
+        player.meshes[0].scaling = new Vector3(1,1,1);
+        player.meshes[0].rotateAround(new Vector3(0,0,0), new Vector3(0,1,0), Math.PI);
+        player.name = "playerModel";
+        player.animationGroups[0].stop();
+        player.animationGroups[1].start(true);
+
+        this.player = player.meshes[0];
+
+        this.playerBox = MeshBuilder.CreateCapsule("playerBox", {height: 1.8, radius: 0.5}, scene);
+        this.playerBox.position = new Vector3(x,y,z);
+
     
+        player.meshes[0].position.x = this.playerBox.position.x;
+        player.meshes[0].position.y = this.playerBox.position.y - 1.8/2; 
+        player.meshes[0].position.z = this.playerBox.position.z;
 
-    this.player;
-    this.inputMap = {};
-    this.actions = {};
-
-    this.platformsList = [];
-    this.angleList = [];
-    this.resAnim;
-
-    this.turnright = false;
-    this.turnleft = false;
-    this.endrightAnimation = false;
-
-  }
-
-  async createbody(scene){
-    let res = await SceneLoader.ImportMeshAsync("", "", playerSki, scene);
-    this.player = res.meshes[0];
-    res.meshes.name = "Player";
-    res.meshes[0].scaling = new Vector3(1, 1, 1);
-    res.animationGroups[0].stop();
-
-    this.resAnim = res
-    //res.animationGroups[1].start(true);
-
-    return res;
-  }
-
-  createBox(){
-    this.playerBox = MeshBuilder.CreateCapsule("playerCap",{width: 0.4, height:1.8});
-    this.playerBox.position.y = 1.8/2;
-    this.playerBox.parent = this.player
-    this.playerBox.isVisible = true;
-    this.playerBox.checkCollisions = true;
-    console.log("playerBox created")
-  }
-
-  updateMove(delta){
-    let numeroPlatform = 0;
-    
-    for(var i = 0; i < this.platformsList.length; i++){
-      if(this.playerBox.intersectsMesh(this.platformsList[i], false)){
-        numeroPlatform = i;
-        break;
-      }
-    }
-    if (VELOCITY2 < 7){
-      VELOCITY2 += 0.02;
-    }
-
-    VELOCITY = this.angleList[numeroPlatform] * 1.3 + VELOCITY2;
-
-    DIRECTION = -GRAVITY-VELOCITY2
-
-    let newPosition = new Vector3(0, DIRECTION, 0);
-
-    if(!this.turnright && !this.turnleft) this.resAnim.animationGroups[0].stop();
-    this.resAnim.animationGroups[0].start(true,1,55,55)
-
-
-    if(this.inputMap['KeyD']){
-      newPosition = new Vector3(-SPEEDX * delta, DIRECTION, 0);
-      this.resAnim.animationGroups[0].stop();
-      this.resAnim.animationGroups[0].start(true, 1,82,82 );
+        this.action(scene);
 
     }
-    else if(this.inputMap['KeyA']){
-      newPosition = new Vector3(SPEEDX * delta, DIRECTION, 0);
 
-      this.resAnim.animationGroups[0].stop();
-      this.resAnim.animationGroups[0].start(true, 1,20,20 );
-      
+    attachCamera(scene){
+        var followCamera = new FollowCamera("FollowCamera", new Vector3(0, 10, -10), scene);
+            followCamera.radius = 20;
+            followCamera.heightOffset = 10;
+            followCamera.rotationOffset = 180;
+            followCamera.cameraAcceleration = 0.1;
+            followCamera.maxCameraSpeed = 5;
+            //followCamera.attachControl(scene.getEngine().getRenderingCanvas(), true);
+            followCamera.lockedTarget = this.player;
+            scene.activeCamera = followCamera;
+        this.camera = followCamera;
     }
-    this.playerBox.moveWithCollisions(newPosition);
-    this.player.position = new Vector3(this.playerBox.position.x, this.playerBox.position.y-1.8/2, this.playerBox.position.z);
 
+    attachPlayerModel(){
+        this.player.position.x = this.playerBox.position.x;
+        this.player.position.y = this.playerBox.position.y - 1.8/2; 
+        this.player.position.z = this.playerBox.position.z;
+    }
 
-  if(this.inputMap['KeyI']){
-       // is inspector is displayed hide it otherwise show it
-        if(this.scene.debugLayer.isVisible())
-          this.scene.debugLayer.hide();
-          else this.scene.debugLayer.show();
-  }
- }
+    action(scene){
+        var player = this.playerBox;
+        player.actionManager = new ActionManager(scene);
 
- createCamera(scene){
-    const camera = new FollowCamera("FollowCam", new Vector3(0, 8.5, 8.5), scene);
-    camera.lockedTarget = this.playerBox;
-    camera.radius = 15;
-    camera.heightOffset = 8;
-    camera.rotationOffset = 0;    
+        var allPole = scene.meshes.filter((mesh) => mesh.name == "poleBox");
 
-    return camera;
- }
+        allPole.forEach((pole) => {
+            player.actionManager.registerAction(
+                new ExecuteCodeAction(
+                    {
+                        trigger: ActionManager.OnIntersectionEnterTrigger,
+                        parameter: pole
+                    }
+                ,() => {
+                    console.log("Hit a pole!");
+                    if(this.score <= 0){
+                        this.score = 0;
+                    }
+                    else{
+                        this.score -= 3;
+                    }
+                    console.log("Score: " + this.score);
+                }
+                )
+            )
+        });
+
+        var allTriggers = scene.meshes.filter((mesh) => mesh.name.includes("Trigger"));
+        allTriggers.forEach((trigger) => {
+            player.actionManager.registerAction(
+                new ExecuteCodeAction(
+                    {
+                        trigger: ActionManager.OnIntersectionEnterTrigger,
+                        parameter: trigger
+                    }
+                ,() => {
+                    console.log("Hit a trigger!");
+                    if(trigger.name.includes("True")){
+                        this.score += 5;
+                    }
+                    else{
+                        if(this.score <= 0){
+                            this.score = 0;
+                        }
+                        else{
+                            this.score -= 5;
+                        }
+                    }
+                    console.log("Score: " + this.score);
+                }
+                )
+            )
+        });
+        
+    }
+
+    updateMove(delta){
+        //console.log(this.inputMap);
+        if(this.inputMap['ShiftLeft'] == true){
+            MOVEX = 20;
+            MOVEZ = 20;
+            MOVEY = 8;
+        }
+        else{
+            MOVEX = 10;
+            MOVEZ = 10;
+            MOVEY = 4;
+        }
+        if(this.inputMap['KeyQ'] || this.inputMap['KeyA']){
+            this.playerBox.position.x -= MOVEX * delta;
+            this.attachPlayerModel();
+        }
+        if(this.inputMap['KeyD']){
+            this.playerBox.position.x += MOVEX * delta;
+            this.attachPlayerModel();
+        }
+
+        if(this.inputMap['KeyW'] || this.inputMap['KeyZ']){
+            this.playerBox.position.z += MOVEZ * delta;
+            this.playerBox.position.y -= MOVEY * delta;
+            this.attachPlayerModel();
+        }
+
+        if(this.inputMap['KeyS']){
+            this.playerBox.position.z -= MOVEZ * delta;
+            this.playerBox.position.y += MOVEY * delta;
+            this.attachPlayerModel();
+        }
+    }
+
 
 }
-
 
 export default Player;
