@@ -1,8 +1,6 @@
 import { BoundingInfo, Camera, Color3, Color4, CubeTexture, DefaultRenderingPipeline, FollowCamera, FreeCamera, HemisphericLight, KeyboardEventTypes, MeshBuilder, MotionBlurPostProcess, Scalar, Scene, SceneLoader, Sound, StandardMaterial, Texture, Vector3 } from "@babylonjs/core";
 import { Inspector } from "@babylonjs/inspector";
 
-import skyBoxMesh from "../assets/textures/sky.jpg";
-
 import LevelManager from "./levelManager.js";
 
 
