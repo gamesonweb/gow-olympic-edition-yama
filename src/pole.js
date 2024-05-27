@@ -13,7 +13,7 @@ class Pole{
             this.poleBox.isVisible = false;
             //this.poleBox.name = "poleBox";
 
-            this.createTrigger("True","False",scene);
+            this.createTrigger(left,right,scene);
 
         });
     }

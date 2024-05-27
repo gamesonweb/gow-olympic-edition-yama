@@ -32,7 +32,7 @@ class Game {
         this.engine.runRenderLoop(() => {
             let delta = this.engine.getDeltaTime()/1000.0;
             if(this.levelM.player != null){
-                this.levelM.player.updateMove(delta,this.scene);
+                this.levelM.player.updateMove(delta);
             }
             
             this.scene.render();

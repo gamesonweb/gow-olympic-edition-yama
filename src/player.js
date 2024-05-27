@@ -56,7 +56,7 @@ class Player{
             followCamera.rotationOffset = 180;
             followCamera.cameraAcceleration = 0.1;
             followCamera.maxCameraSpeed = 5;
-            followCamera.attachControl(scene.getEngine().getRenderingCanvas(), true);
+            //followCamera.attachControl(scene.getEngine().getRenderingCanvas(), true);
             followCamera.lockedTarget = this.player;
             scene.activeCamera = followCamera;
         this.camera = followCamera;
@@ -153,7 +153,7 @@ class Player{
         
     }
 
-    updateMove(delta,scene){
+    updateMove(delta){
         if(this.playerBox != undefined){
             if(this.currentSpeed < TOPSPEED && !this.finished){
                 this.currentSpeed += 0.02;
@@ -188,15 +188,21 @@ class Player{
             if(this.inputMap['KeyW'] || this.inputMap['KeyZ']){
                 //this.playerBox.position.z -= MOVEZ * delta;
                 z = +(MOVEZ * delta);
+                if(this.currentSpeed < TOPSPEED){
+                    this.currentSpeed += 0.2;
+                }
             }
 
             if(this.inputMap['KeyS']){
                 //this.playerBox.position.z += MOVEZ * delta;
-                z = -(MOVEZ * delta);
-            };
+                //z = -(MOVEZ * delta);
+                if(this.currentSpeed > 0){
+                    this.currentSpeed -= 0.2;
+                }
+            }
             this.updatePosition(x,y,z);
         }
-        console.log(this.currentSpeed);
+        //console.log(this.currentSpeed);
     }
 
     updatePosition(x,y,z){

@@ -2,21 +2,25 @@ import Platform from './platform.js';
 import Pole from './pole.js';
 import ModelLoading from './3DModelLoading.js';
 import Player from './player.js';
-import { KeyboardEventTypes, MeshBuilder, Vector3 } from '@babylonjs/core';
+import { KeyboardEventTypes, MeshBuilder, Scene, Vector3 } from '@babylonjs/core';
+
+import { SceneLoader } from '@babylonjs/core/Loading/sceneLoader';
+import standModel from "../assets/models/seating__bleacher.glb";
 
 class LevelManager{
     constructor(){
         this.platforms = [];
         this.poles = [];
         this.player = null;
+        this.box = [];
     }
 
     addPlatform(x,y,z,width,depth,angle,scene){
         this.platforms.push(new Platform(x,y,z,width,depth,angle,scene));
     }
 
-    addPole(x,y,z,scene){
-        this.poles.push(new Pole(x,y,z,scene));
+    addPole(x,y,z,left,right,scene){
+        this.poles.push(new Pole(x,y,z,left,right,scene));
     }
 
     tutorial(scene){
@@ -31,15 +35,29 @@ class LevelManager{
             var width = this.platforms[i].width;
             var depth = this.platforms[i].depth;
             var angle = this.platforms[i].angle;
+
+            var box = MeshBuilder.CreateBox("box", {width: 30, height: 15, depth: 30}, scene);
+            box.position = new Vector3(x - (25+15),y,z);
+            this.box.push(box);
+
+
+
             this.addPlatform(x,y,z,width,depth,angle,scene);
 
             if(i % 3 == 0){
+                var left = "True";
+                var right = "False";
                 var r = Math.random() * 20 - 10;
-                this.addPole(x + r,y,z,scene);
+                if(i%6 == 0){
+                    left = "False";
+                    right = "True";
+                }
+                this.addPole(x + r,y,z,left,right,scene);
             }
         }
         this.addEndPlatform(scene,maxPlatforms);
         
+        this.addAllPlatform(scene);
 
         this.player = new Player();
         this.player.loadPlayerOnScene(0,2,0,scene);
@@ -55,6 +73,8 @@ class LevelManager{
             }
         });
     }
+
+
 
     addStartPlatform(scene){
         this.addPlatform(0,0,0,50,25,0,scene);
@@ -81,6 +101,22 @@ class LevelManager{
         endTrigger.position = new Vector3(0,this.platforms[this.platforms.length-1].y,this.platforms[this.platforms.length-1].z-25);
         endTrigger.isVisible = false;
         endTrigger.checkCollisions = false;
+    }
+
+    addAllPlatform(scene){
+        for(var i =0; i < this.box.length; i++){
+            this.addStand(this.box[i].position.x +45,this.box[i].position.y+7,this.box[i].position.z - 30,scene);
+        }
+    }
+
+    async addStand(x,y,z,scene){
+        this.stand = await SceneLoader.ImportMeshAsync("","",standModel,scene);
+        this.stand.meshes[0].scaling = new Vector3(3,3,3);
+        this.stand.meshes[0].name = "stand";
+        //this.stand.meshes[0].checkCollisions = true;
+        this.stand.meshes[0].isVisible = false;
+        this.stand.meshes[0].rotateAround(new Vector3(0,0,0), new Vector3(0,0,0), Math.PI);
+        this.stand.meshes[0].position = new Vector3(x,y,z);
     }
 
 
