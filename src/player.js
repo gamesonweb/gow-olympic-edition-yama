@@ -29,9 +29,10 @@ class Player{
         var player = await SceneLoader.ImportMeshAsync("", "", playerMesh, scene);
         player.meshes[0].scaling = new Vector3(1,1,1);
         player.meshes[0].rotateAround(new Vector3(0,0,0), new Vector3(0,1,0), Math.PI);
-        player.name = "playerModel";
+        player.meshes[0].name = "playerModel";
         player.animationGroups[0].stop();
         player.animationGroups[1].start(true);
+
 
         this.player = player.meshes[0];
 
@@ -50,7 +51,7 @@ class Player{
     }
 
     attachCamera(scene){
-        var followCamera = new FollowCamera("FollowCamera", new Vector3(0, 10, -10), scene);
+        var followCamera = new FollowCamera("FollowCamera", new Vector3(0, -500, 1000), scene);
             followCamera.radius = 20;
             followCamera.heightOffset = 10;
             followCamera.rotationOffset = 180;
