@@ -2,7 +2,7 @@ import Platform from './platform.js';
 import Pole from './pole.js';
 import ModelLoading from './3DModelLoading.js';
 import Player from './player.js';
-import { KeyboardEventTypes } from '@babylonjs/core';
+import { KeyboardEventTypes, MeshBuilder, Vector3 } from '@babylonjs/core';
 
 class LevelManager{
     constructor(){
@@ -21,9 +21,10 @@ class LevelManager{
 
     tutorial(scene){
         console.log("Tutorial level");
-        this.addPlatform(0,0,0,50,50,Math.PI/8);
+       
+        this.addStartPlatform(scene);
         var maxPlatforms = 10;
-        for(var i = 0; i < maxPlatforms; i++){
+        for(var i = 1; i < maxPlatforms+1; i++){
             var x = this.platforms[i].x;
             var y = this.platforms[i].y - this.platforms[i].depth * Math.sin(this.platforms[i].angle);
             var z = this.platforms[i].z + this.platforms[i].depth-4;
@@ -37,6 +38,8 @@ class LevelManager{
                 this.addPole(x + r,y,z,scene);
             }
         }
+        this.addEndPlatform(scene,maxPlatforms);
+        
 
         this.player = new Player();
         this.player.loadPlayerOnScene(0,2,0,scene);
@@ -51,7 +54,33 @@ class LevelManager{
                     break;
             }
         });
-        //this.player.action(scene);
+    }
+
+    addStartPlatform(scene){
+        this.addPlatform(0,0,0,50,25,0,scene);
+        this.platforms[0].platform.name = "StartPlatform";
+
+        var startTrigger = MeshBuilder.CreateBox("startTrigger", {width: 50, height: 25, depth: 0.5}, scene);
+        startTrigger.position = new Vector3(0,0,25/2);
+        startTrigger.isVisible = false;
+        startTrigger.checkCollisions = false;
+
+
+        this.addPlatform(0,-9.6,35,50,50,Math.PI/8);
+
+    }
+
+    addEndPlatform(scene,maxPlatforms){
+        this.addPlatform(0,
+            this.platforms[maxPlatforms+1].y - this.platforms[maxPlatforms+1].depth * Math.sin(this.platforms[maxPlatforms+1].angle) + 10,
+            this.platforms[maxPlatforms+1].z + this.platforms[maxPlatforms+1].depth-4,
+            50,50,0,scene
+        )
+        this.platforms[this.platforms.length-1].platform.name = "EndPlatform";
+        var endTrigger = MeshBuilder.CreateBox("endTrigger", {width: 50, height: 25, depth: 0.5}, scene);
+        endTrigger.position = new Vector3(0,this.platforms[this.platforms.length-1].y,this.platforms[this.platforms.length-1].z-25);
+        endTrigger.isVisible = false;
+        endTrigger.checkCollisions = false;
     }
 
 

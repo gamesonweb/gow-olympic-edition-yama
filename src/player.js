@@ -1,22 +1,28 @@
 import { ActionManager, ExecuteCodeAction, FollowCamera, MeshBuilder, PhysicsImpostor, SceneLoader, Vector3 } from "@babylonjs/core";
 import playerMesh  from "../assets/models/player.glb";
 
-var MOVEX = 10;
+var MOVEX = 30;
 var MOVEY = 4;
 var MOVEZ = 10;
+var GRAVITY = -1.0;
+
+const TOPSPEED = 7;
 
 class Player{
     constructor(){
         this.name = "player";
         this.inputMap = {};
         this.camera;
+        this.currentSpeed = 0;
+        this.score = 0;
+        this.finished = false;
     }
 
     loadPlayerOnScene(x,y,z,scene){
         this.loadPlayer(x,y,z,scene).then(() => {
             this.attachCamera(scene);
         });
-        this.score = 0;
+        
     }
 
     async loadPlayer(x,y,z,scene){
@@ -31,6 +37,8 @@ class Player{
 
         this.playerBox = MeshBuilder.CreateCapsule("playerBox", {height: 1.8, radius: 0.5}, scene);
         this.playerBox.position = new Vector3(x,y,z);
+        this.playerBox.checkCollisions = true;
+        this.playerBox.isVisible = false;
 
     
         player.meshes[0].position.x = this.playerBox.position.x;
@@ -48,7 +56,7 @@ class Player{
             followCamera.rotationOffset = 180;
             followCamera.cameraAcceleration = 0.1;
             followCamera.maxCameraSpeed = 5;
-            //followCamera.attachControl(scene.getEngine().getRenderingCanvas(), true);
+            followCamera.attachControl(scene.getEngine().getRenderingCanvas(), true);
             followCamera.lockedTarget = this.player;
             scene.activeCamera = followCamera;
         this.camera = followCamera;
@@ -113,41 +121,87 @@ class Player{
                 )
             )
         });
+
+        var endPlatform = scene.getMeshByName("endTrigger");
+        player.actionManager.registerAction(
+            new ExecuteCodeAction(
+                {
+                    trigger: ActionManager.OnIntersectionExitTrigger,
+                    parameter: endPlatform
+                }
+            ,() => {
+                console.log("Finished!");
+                this.finished = true;
+            }
+            )
+        );
+
+        var startPlatform = scene.getMeshByName("startTrigger");
+        player.actionManager.registerAction(
+            new ExecuteCodeAction(
+                {
+                    trigger: ActionManager.OnIntersectionExitTrigger,
+                    parameter: startPlatform
+                }
+            ,() => {
+                console.log("Start!");
+                this.finished = false;
+                this.currentSpeed = 0;
+            }
+            )
+        );
         
     }
 
-    updateMove(delta){
-        //console.log(this.inputMap);
-        if(this.inputMap['ShiftLeft'] == true){
-            MOVEX = 20;
-            MOVEZ = 20;
-            MOVEY = 8;
-        }
-        else{
-            MOVEX = 10;
-            MOVEZ = 10;
-            MOVEY = 4;
-        }
-        if(this.inputMap['KeyQ'] || this.inputMap['KeyA']){
-            this.playerBox.position.x -= MOVEX * delta;
-            this.attachPlayerModel();
-        }
-        if(this.inputMap['KeyD']){
-            this.playerBox.position.x += MOVEX * delta;
-            this.attachPlayerModel();
-        }
+    updateMove(delta,scene){
+        if(this.playerBox != undefined){
+            if(this.currentSpeed < TOPSPEED && !this.finished){
+                this.currentSpeed += 0.02;
+            }
 
-        if(this.inputMap['KeyW'] || this.inputMap['KeyZ']){
-            this.playerBox.position.z += MOVEZ * delta;
-            this.playerBox.position.y -= MOVEY * delta;
-            this.attachPlayerModel();
-        }
+            else{
+                if(this.currentSpeed > 0 && this.finished){
+                    this.currentSpeed -= 0.75;
+                }
+                if(this.currentSpeed <= 0){
+                    this.currentSpeed = 0;
+                }
+            }
+            var x = 0;
+            var y = GRAVITY - this.currentSpeed;
+            var z = 0;
 
-        if(this.inputMap['KeyS']){
-            this.playerBox.position.z -= MOVEZ * delta;
-            this.playerBox.position.y += MOVEY * delta;
-            this.attachPlayerModel();
+            if(this.finished){
+                y = GRAVITY;
+                z = this.currentSpeed;
+            }
+
+            if(this.inputMap['KeyQ'] || this.inputMap['KeyA']){
+                //this.playerBox.position.x -= MOVEX * delta;
+                x = -(MOVEX * delta);
+            }
+            if(this.inputMap['KeyD']){
+                //this.playerBox.position.x += MOVEX * delta;
+                x = MOVEX * delta;
+            }
+
+            if(this.inputMap['KeyW'] || this.inputMap['KeyZ']){
+                //this.playerBox.position.z -= MOVEZ * delta;
+                z = +(MOVEZ * delta);
+            }
+
+            if(this.inputMap['KeyS']){
+                //this.playerBox.position.z += MOVEZ * delta;
+                z = -(MOVEZ * delta);
+            };
+            this.updatePosition(x,y,z);
         }
+        console.log(this.currentSpeed);
+    }
+
+    updatePosition(x,y,z){
+        this.playerBox.moveWithCollisions(new Vector3(x,y,z));
+        this.attachPlayerModel();
     }
 
 
