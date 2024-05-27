@@ -23,59 +23,6 @@ class LevelManager{
         this.poles.push(new Pole(x,y,z,left,right,scene));
     }
 
-    tutorial(scene){
-        console.log("Tutorial level");
-       
-        this.addStartPlatform(scene);
-        var maxPlatforms = 10;
-        for(var i = 1; i < maxPlatforms+1; i++){
-            var x = this.platforms[i].x;
-            var y = this.platforms[i].y - this.platforms[i].depth * Math.sin(this.platforms[i].angle);
-            var z = this.platforms[i].z + this.platforms[i].depth-4;
-            var width = this.platforms[i].width;
-            var depth = this.platforms[i].depth;
-            var angle = this.platforms[i].angle;
-
-            var box = MeshBuilder.CreateBox("box", {width: 30, height: 15, depth: 30}, scene);
-            box.position = new Vector3(x - (25+15),y,z);
-            this.box.push(box);
-
-
-
-            this.addPlatform(x,y,z,width,depth,angle,scene);
-
-            if(i % 3 == 0){
-                var left = "True";
-                var right = "False";
-                var r = Math.random() * 20 - 10;
-                if(i%6 == 0){
-                    left = "False";
-                    right = "True";
-                }
-                this.addPole(x + r,y,z,left,right,scene);
-            }
-        }
-        this.addEndPlatform(scene,maxPlatforms);
-        
-        this.addAllPlatform(scene);
-
-        this.player = new Player();
-        this.player.loadPlayerOnScene(0,2,0,scene);
-
-        scene.onKeyboardObservable.add((kbInfo) => {
-            switch(kbInfo.type){
-                case KeyboardEventTypes.KEYDOWN:
-                    this.player.inputMap[kbInfo.event.code] = true;
-                    break;
-                case KeyboardEventTypes.KEYUP:
-                    this.player.inputMap[kbInfo.event.code] = false;
-                    break;
-            }
-        });
-    }
-
-
-
     addStartPlatform(scene){
         this.addPlatform(0,0,0,50,25,0,scene);
         this.platforms[0].platform.name = "StartPlatform";
@@ -118,6 +65,67 @@ class LevelManager{
         this.stand.meshes[0].rotateAround(new Vector3(0,0,0), new Vector3(0,0,0), Math.PI);
         this.stand.meshes[0].position = new Vector3(x,y,z);
     }
+
+    init(){
+        this.platforms = [];
+        this.poles = [];
+        this.player = null;
+        this.box = [];
+    }
+
+    tutorial(scene){
+        console.log("Tutorial level");
+        this.init();
+
+        this.addStartPlatform(scene);
+        var maxPlatforms = 10;
+        for(var i = 1; i < maxPlatforms+1; i++){
+            var x = this.platforms[i].x;
+            var y = this.platforms[i].y - this.platforms[i].depth * Math.sin(this.platforms[i].angle);
+            var z = this.platforms[i].z + this.platforms[i].depth-4;
+            var width = this.platforms[i].width;
+            var depth = this.platforms[i].depth;
+            var angle = this.platforms[i].angle;
+
+            var box = MeshBuilder.CreateBox("box", {width: 30, height: 15, depth: 30}, scene);
+            box.position = new Vector3(x - (25+15),y,z);
+            this.box.push(box);
+            this.addPlatform(x,y,z,width,depth,angle,scene);
+
+            if(i % 3 == 0){
+                var left = "True";
+                var right = "False";
+                var r = Math.random() * 20 - 10;
+                if(i%6 == 0){
+                    left = "False";
+                    right = "True";
+                }
+                this.addPole(x + r,y,z,left,right,scene);
+            }
+        }
+        this.addEndPlatform(scene,maxPlatforms);
+        
+        this.addAllPlatform(scene);
+
+        this.player = new Player();
+        this.player.loadPlayerOnScene(0,2,0,scene);
+
+        scene.onKeyboardObservable.add((kbInfo) => {
+            switch(kbInfo.type){
+                case KeyboardEventTypes.KEYDOWN:
+                    this.player.inputMap[kbInfo.event.code] = true;
+                    break;
+                case KeyboardEventTypes.KEYUP:
+                    this.player.inputMap[kbInfo.event.code] = false;
+                    break;
+            }
+        });
+    }
+
+    level1(scene){
+
+    }
+
 
 
 
