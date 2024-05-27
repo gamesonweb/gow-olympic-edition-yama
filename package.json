@@ -21,7 +21,7 @@
   "bugs": {
     "url": "https://github.com/gamesonweb/gow-olympic-edition-yama"
   },
-  "homepage": "https://github.com/gamesonweb/gow-olympic-edition-yama#readme",
+  "homepage": "https://github.com/gamesonweb/gow-olympic-edition-yama/index.html",
   "devDependencies": {
     "@babylonjs/core": "^6.48.1",
     "@babylonjs/gui": "^6.48.1",
