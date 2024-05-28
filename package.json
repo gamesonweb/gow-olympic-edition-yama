@@ -14,14 +14,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Kazenoyama/Yama.git"
+    "url": "git+https://github.com/gamesonweb/gow-olympic-edition-yama"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Kazenoyama/Yama/issues"
+    "url": "https://github.com/gamesonweb/gow-olympic-edition-yama"
   },
-  "homepage": "https://github.com/Kazenoyama/Yama#readme",
+  "homepage": "https://github.com/gamesonweb/gow-olympic-edition-yama/index.html",
   "devDependencies": {
     "@babylonjs/core": "^6.48.1",
     "@babylonjs/gui": "^6.48.1",

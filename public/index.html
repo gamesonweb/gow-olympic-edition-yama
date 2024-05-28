@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">    
-    <title>BabylonJS Game</title>
+    <title>Yama</title>
     <link rel="icon" type="image/x-icon" href="./favicon.ico">    
     <style>
         html, body {
@@ -18,7 +18,7 @@
           height: 100%;
           touch-action: none;
         }
-        #fps {
+        #score {
                   position: absolute;
                   background-color: black;
                   border: 2px solid red;
@@ -27,13 +27,27 @@
                   color: white;
                   top: 15px;
                   right: 10px;
-                  width: 60px;
+                  width: 120px;
                   height: 20px;
               }
+        #bestScore {
+                  position: absolute;
+                  background-color: black;
+                  border: 2px solid red;
+                  text-align: center;
+                  font-size: 16px;
+                  color: white;
+                  top: 40px;
+                  right: 10px;
+                  width: 120px;
+                  height: 20px;
+            }
       </style>
   </head>
   <body>
     <canvas id="renderCanvas" touch-action="none"></canvas>
+    <div id="score">Score: 0</div>
+    <div id="bestScore">Best: 0</div>
     <!--<div id="fps">0</div>-->
   </body>
 </html>
