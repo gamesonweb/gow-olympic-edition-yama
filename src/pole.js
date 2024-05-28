@@ -1,17 +1,29 @@
-import { ActionManager, ExecuteCodeAction, Mesh, MeshBuilder, SceneLoader, Vector3 } from "@babylonjs/core";
+import { ActionManager, Color3, ExecuteCodeAction, Mesh, MeshBuilder, SceneLoader, StandardMaterial, Vector3 } from "@babylonjs/core";
 import cubeModel from "../assets/models/ice_cube.glb";
 
 
 class Pole{
     constructor(x,y,z,left,right,scene){
         this.loadPole(scene).then(() => {
-            this.poleModel.meshes[0].position = new Vector3(x,y,z);
+            this.poleModel.position = new Vector3(x,y,z);
 
             this.poleBox = MeshBuilder.CreateBox("poleBox", {width: 0.5, height: 100, depth: 0.5}, scene);
             this.poleBox.position = new Vector3(x,y,z);
             this.poleBox.checkCollisions = true;
             this.poleBox.isVisible = false;
-            //this.poleBox.name = "poleBox";
+
+            if(left =="True"){
+                var blueMaterial = new StandardMaterial("blueMaterial", scene);
+                blueMaterial.diffuseColor = new Color3(0, 0, 1); // bleu
+                this.poleModel.material = blueMaterial;
+            }
+            else{
+                var redMaterial = new StandardMaterial("redMaterial", scene);
+                redMaterial.diffuseColor = new Color3(1, 0, 0); // rouge
+                this.poleModel.material = redMaterial;
+            }
+
+
 
             this.createTrigger(left,right,scene);
 
@@ -19,10 +31,7 @@ class Pole{
     }
 
     async loadPole(scene){
-        this.poleModel = await SceneLoader.ImportMeshAsync("","",cubeModel,scene);
-        this.poleModel.meshes[0].scaling = new Vector3(0.5,10,0.5);
-        this.poleModel.meshes[0].name = "pole";
-        this.poleModel.meshes[0].checkCollisions = true;
+        this.poleModel = MeshBuilder.CreateCylinder("pole", {diameter: 0.5, height: 25}, scene);
     }
 
     createTrigger(left,right,scene){

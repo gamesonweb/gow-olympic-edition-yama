@@ -61,7 +61,7 @@ class Game {
         this.scene.clearColor = new Color3(0.7, 0.7, 0.95);
         this.scene.ambientColor = new Color3(0.8, 0.8, 1);
         this.scene.collisionsEnabled = true;
-        this.scene.gravity = new Vector3(0, -0.15, 0);
+        //this.scene.gravity = new Vector3(0, -0.15, 0);
         var pipeline = new DefaultRenderingPipeline("default", true, this.scene, [this.camera]);
 
         pipeline.glowLayerEnabled = true;
@@ -71,7 +71,7 @@ class Game {
         var light = new HemisphericLight("light", new Vector3(0, 1, 0), this.scene);
 
         // Default intensity is 1. Let's dim the light a small amount
-        light.intensity = 0.7;
+        light.intensity = 1;
 
     }
 

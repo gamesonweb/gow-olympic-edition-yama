@@ -6,7 +6,7 @@ var MOVEY = 4;
 var MOVEZ = 10;
 var GRAVITY = -1.0;
 
-const TOPSPEED = 7;
+const TOPSPEED = 10;
 
 class Player{
     constructor(){
@@ -126,19 +126,21 @@ class Player{
             )
         });
 
-        var endPlatform = scene.getMeshByName("end");
-        player.actionManager.registerAction(
-            new ExecuteCodeAction(
-                {
-                    trigger: ActionManager.OnIntersectionExitTrigger,
-                    parameter: endPlatform
+        var endPlatform = scene.meshes.filter((mesh) => mesh.name == "end");
+        endPlatform.forEach((end) => {
+            player.actionManager.registerAction(
+                new ExecuteCodeAction(
+                    {
+                        trigger: ActionManager.OnIntersectionEnterTrigger,
+                        parameter: end
+                    }
+                ,() => {
+                    console.log("Finished!");
+                    this.finished = true;
                 }
-            ,() => {
-                console.log("Finished!");
-                this.finished = true;
-            }
-            )
-        );
+                )
+            );
+        });
 
         var startPlatform = scene.getMeshByName("startTrigger");
         player.actionManager.registerAction(
@@ -202,7 +204,7 @@ class Player{
             if(this.inputMap['KeyS']){
                 //this.playerBox.position.z += MOVEZ * delta;
                 //z = -(MOVEZ * delta);
-                if(this.currentSpeed > 5){
+                if(this.currentSpeed > 2){
                     this.currentSpeed -= 0.2;
                 }
             }

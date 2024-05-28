@@ -51,6 +51,9 @@ class LevelManager{
 
         if(scene.getMeshByName("end") != null){
             scene.getMeshByName("end").position = new Vector3(0,this.platforms[this.platforms.length-1].y,this.platforms[this.platforms.length-1].z-25);
+            scene.getMeshByName("end2").position = new Vector3(0,this.platforms[this.platforms.length-1].y,this.platforms[this.platforms.length-1].z-20);
+            scene.getMeshByName("end3").position = new Vector3(0,this.platforms[this.platforms.length-1].y,this.platforms[this.platforms.length-1].z-15);
+            scene.getMeshByName("end4").position = new Vector3(0,this.platforms[this.platforms.length-1].y,this.platforms[this.platforms.length-1].z-10);
         }
         
         else{
@@ -58,6 +61,21 @@ class LevelManager{
             endTrigger.position = new Vector3(0,this.platforms[this.platforms.length-1].y,this.platforms[this.platforms.length-1].z-25);
             endTrigger.isVisible = false;
             endTrigger.checkCollisions = false;
+
+            var endTrigger2 = MeshBuilder.CreateBox("end2", {width: 50, height: 25, depth: 0.5}, scene);
+            endTrigger2.position = new Vector3(0,this.platforms[this.platforms.length-1].y,this.platforms[this.platforms.length-1].z-20);
+            endTrigger2.isVisible = false;
+            endTrigger2.checkCollisions = false;
+
+            var endTrigger3 = MeshBuilder.CreateBox("end3", {width: 50, height: 25, depth: 0.5}, scene);
+            endTrigger3.position = new Vector3(0,this.platforms[this.platforms.length-1].y,this.platforms[this.platforms.length-1].z-15);
+            endTrigger3.isVisible = false;
+            endTrigger3.checkCollisions = false;
+
+            var endTrigger4 = MeshBuilder.CreateBox("end4", {width: 50, height: 25, depth: 0.5}, scene);
+            endTrigger4.position = new Vector3(0,this.platforms[this.platforms.length-1].y,this.platforms[this.platforms.length-1].z-10);
+            endTrigger4.isVisible = false;
+            endTrigger4.checkCollisions = false;
         }
     }
 
