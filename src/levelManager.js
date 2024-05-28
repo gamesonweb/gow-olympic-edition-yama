@@ -269,7 +269,7 @@ class LevelManager{
         console.log("Level 2");
         this.init(scene);
         this.addStartPlatform(scene);
-        var maxPlatforms = 25;
+        var maxPlatforms = 50;
         for(var i = 1; i < maxPlatforms+1; i++){
             var x = this.platforms[i].x;
             var y = this.platforms[i].y - this.platforms[i].depth * Math.sin(this.platforms[i].angle);
