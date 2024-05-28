@@ -6,7 +6,7 @@ var MOVEY = 4;
 var MOVEZ = 10;
 var GRAVITY = -1.0;
 
-const TOPSPEED = 7;
+const TOPSPEED = 10;
 
 class Player{
     constructor(){
@@ -15,6 +15,7 @@ class Player{
         this.camera;
         this.currentSpeed = 0;
         this.score = 0;
+        this.updateScore();
         this.finished = false;
     }
 
@@ -90,6 +91,7 @@ class Player{
                     else{
                         this.score -= 3;
                     }
+                    this.updateScore();
                     console.log("Score: " + this.score);
                 }
                 )
@@ -117,13 +119,14 @@ class Player{
                             this.score -= 5;
                         }
                     }
+                    this.updateScore();
                     console.log("Score: " + this.score);
                 }
                 )
             )
         });
 
-        var endPlatform = scene.getMeshByName("endTrigger");
+        var endPlatform = scene.getMeshByName("end");
         player.actionManager.registerAction(
             new ExecuteCodeAction(
                 {
@@ -148,6 +151,8 @@ class Player{
                 console.log("Start!");
                 this.finished = false;
                 this.currentSpeed = 0;
+                this.score = 0;
+                this.updateScore();
             }
             )
         );
@@ -209,6 +214,10 @@ class Player{
     updatePosition(x,y,z){
         this.playerBox.moveWithCollisions(new Vector3(x,y,z));
         this.attachPlayerModel();
+    }
+
+    updateScore(){
+        document.getElementById("score").innerHTML = "Score: " + this.score;
     }
 
 

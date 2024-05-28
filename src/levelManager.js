@@ -47,12 +47,12 @@ class LevelManager{
         )
         this.platforms[this.platforms.length-1].platform.name = "EndPlatform";
 
-        if(scene.getMeshByName("endTrigger") != null){
-            scene.getMeshByName("endTrigger").position = new Vector3(0,this.platforms[this.platforms.length-1].y,this.platforms[this.platforms.length-1].z-25);
+        if(scene.getMeshByName("end") != null){
+            scene.getMeshByName("end").position = new Vector3(0,this.platforms[this.platforms.length-1].y,this.platforms[this.platforms.length-1].z-25);
         }
         
         else{
-            var endTrigger = MeshBuilder.CreateBox("endTrigger", {width: 50, height: 25, depth: 0.5}, scene);
+            var endTrigger = MeshBuilder.CreateBox("end", {width: 50, height: 25, depth: 0.5}, scene);
             endTrigger.position = new Vector3(0,this.platforms[this.platforms.length-1].y,this.platforms[this.platforms.length-1].z-25);
             endTrigger.isVisible = false;
             endTrigger.checkCollisions = false;
@@ -135,6 +135,10 @@ class LevelManager{
                         case 1:
                             this.init(scene);
                             this.level1(scene);
+                            break;
+                        case 2:
+                            this.init(scene);
+                            this.level2(scene);
                             break;
 
                         default:
@@ -241,6 +245,60 @@ class LevelManager{
             }
         }
 
+        console.log(this.poles.length)
+        this.addEndPlatform(scene,maxPlatforms);
+        this.addAllPlatform(scene);
+
+        this.player = new Player();
+        this.player.loadPlayerOnScene(0,2,0,scene);
+
+        scene.onKeyboardObservable.add((kbInfo) => {
+            switch(kbInfo.type){
+                case KeyboardEventTypes.KEYDOWN:
+                    this.player.inputMap[kbInfo.event.code] = true;
+                    break;
+                case KeyboardEventTypes.KEYUP:
+                    this.player.inputMap[kbInfo.event.code] = false;
+                    break;
+            }
+        });
+
+    }
+
+    level2(scene){
+        console.log("Level 2");
+        this.init(scene);
+        this.addStartPlatform(scene);
+        var maxPlatforms = 50;
+        for(var i = 1; i < maxPlatforms+1; i++){
+            var x = this.platforms[i].x;
+            var y = this.platforms[i].y - this.platforms[i].depth * Math.sin(this.platforms[i].angle);
+            var z = this.platforms[i].z + this.platforms[i].depth-4;
+            var width = this.platforms[i].width;
+            var depth = this.platforms[i].depth;
+            var angle = this.platforms[i].angle;
+
+            var box = MeshBuilder.CreateBox("box", {width: 30, height: 20, depth: 50}, scene);
+            box.position = new Vector3(x - (25+15),y,z);
+            this.box.push(box);
+
+            var boxRight = MeshBuilder.CreateBox("boxRight", {width: 30, height: 20, depth: 50}, scene);
+            boxRight.position = new Vector3(x + (25+15),y,z);
+            this.boxRight.push(boxRight);
+
+            this.addPlatform(x,y,z,width,depth,angle,scene);
+
+            
+            var left = "True";
+            var right = "False";
+            var r = Math.random() * 20 - 10;
+            if(i%2 == 0){
+                left = "False";
+                right = "True";
+            }
+            this.addPole(x + r,y,z,left,right,scene);
+        }
+
         this.addEndPlatform(scene,maxPlatforms);
         this.addAllPlatform(scene);
 
@@ -248,7 +306,6 @@ class LevelManager{
         this.player.loadPlayerOnScene(0,2,0,scene);
 
     }
-
 
 
 
