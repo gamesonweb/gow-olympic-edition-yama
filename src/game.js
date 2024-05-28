@@ -18,7 +18,7 @@ class Game {
 
         // Set the target frame rate to 60 fps
         this.engine.setHardwareScalingLevel(1 / (window.devicePixelRatio || 1));
-        this.targetFPS = 144;
+        this.targetFPS = 90;
         this.frameDuration = 1000 / this.targetFPS;
         this.lastFrameTime = 0;
     }
