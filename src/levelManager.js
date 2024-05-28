@@ -15,6 +15,8 @@ class LevelManager{
         this.box = [];
         this.boxRight = [];
         this.currentLevel = 0;
+        this.lvl1BestScore = 0;
+        this.lvl2BestScore = 0;
     }
 
     addPlatform(x,y,z,width,depth,angle,scene){
@@ -80,6 +82,16 @@ class LevelManager{
         this.poles = [];
         this.box = [];
 
+        document.getElementById("bestScore").innerHTML = "Best Score: 0";
+        if(this.currentLevel == 1){
+            console.log("Best Score: " + this.lvl1BestScore)
+            document.getElementById("bestScore").innerHTML = "Best Score: " + this.lvl1BestScore;
+        }
+
+        if(this.currentLevel == 2){
+            document.getElementById("bestScore").innerHTML = "Best Score: " + this.lvl2BestScore;
+        }
+
         if(this.player != null){
             scene.getMeshByName("playerBox").dispose();
             scene.getMeshByName("playerModel").dispose();
@@ -126,7 +138,23 @@ class LevelManager{
         setInterval(() => {
             if(this.player != null){
                 if(this.player.finished){
+                    switch(this.currentLevel){
+                        case 1:
+                            if(this.player.score > this.lvl1BestScore){
+                                this.lvl1BestScore = this.player.score;
+                            }
+                            
+                            break;
+                        case 2:
+                            if(this.player.score > this.lvl2BestScore){
+                                this.lvl2BestScore = this.player.score;
+                            }
+                            break;
+                        default:
+                            break;
+                    }
                     this.currentLevel++;
+
                     switch (this.currentLevel) {
                         case 0:
                             this.tutorial(scene);
@@ -143,9 +171,10 @@ class LevelManager{
 
                         default:
                             console.log("No more levels");
+                            this.currentLevel = 1;
                             this.init(scene);
-                            this.tutorial(scene);
-                            this.currentLevel = 0;
+                            this.level1(scene);
+                            
                             break;
                     }
                 }

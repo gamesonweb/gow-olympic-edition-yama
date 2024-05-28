@@ -6,7 +6,7 @@ var MOVEY = 4;
 var MOVEZ = 10;
 var GRAVITY = -1.0;
 
-const TOPSPEED = 15;
+const TOPSPEED = 7;
 
 class Player{
     constructor(){
