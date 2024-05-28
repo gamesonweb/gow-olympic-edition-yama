@@ -15,37 +15,27 @@ class Game {
         this.engine = engine;
         this.canvas = canvas;
         this.activeCamera = null;
-
-        // Set the target frame rate to 60 fps
-        this.engine.setHardwareScalingLevel(1 / (window.devicePixelRatio || 1));
-        this.targetFPS = 90;
-        this.frameDuration = 1000 / this.targetFPS;
-        this.lastFrameTime = 0;
     }
 
     init() {
         this.engine.displayLoadingUI();
         console.log("Game is initializing...");
         this.createScene().then(() => {
-            this.engine.hideLoadingUI();
+            
         });
-        
+        this.engine.hideLoadingUI();
         
 
     }
 
     start() {
         this.engine.runRenderLoop(() => {
-            const now = performance.now();
-            const delta = (now - this.lastFrameTime) / 1000;
-
-            if (delta >= 1 / this.targetFPS) {
-                if (this.levelM.player != null) {
-                    this.levelM.player.updateMove(delta);
-                }
-                this.scene.render();
-                this.lastFrameTime = now;
+            let delta = this.engine.getDeltaTime()/1000.0;
+            if(this.levelM.player != null){
+                this.levelM.player.updateMove(delta);
             }
+            
+            this.scene.render();
         });
 
     }

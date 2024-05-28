@@ -6,7 +6,7 @@ var MOVEY = 4;
 var MOVEZ = 10;
 var GRAVITY = -1.0;
 
-const TOPSPEED = 10;
+const TOPSPEED = 15;
 
 class Player{
     constructor(){
@@ -202,7 +202,7 @@ class Player{
             if(this.inputMap['KeyS']){
                 //this.playerBox.position.z += MOVEZ * delta;
                 //z = -(MOVEZ * delta);
-                if(this.currentSpeed > 0){
+                if(this.currentSpeed > 5){
                     this.currentSpeed -= 0.2;
                 }
             }
