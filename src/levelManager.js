@@ -18,6 +18,7 @@ class LevelManager{
         this.currentLevel = 0;
         this.lvl1BestScore = 0;
         this.lvl2BestScore = 0;
+        this.notExist = true;
 
         this.addMenuListener();
         
@@ -186,7 +187,6 @@ class LevelManager{
         }, 1000);
     }
 
-    
     menu(scene){
         console.log("Menu")
         this.init(scene);
@@ -384,16 +384,52 @@ class LevelManager{
         this.player = new Player();
         this.player.loadPlayerOnScene(0,2,0,scene);
 
-        scene.onKeyboardObservable.add((kbInfo) => {
-            switch(kbInfo.type){
-                case KeyboardEventTypes.KEYDOWN:
-                    this.player.inputMap[kbInfo.event.code] = true;
-                    break;
-                case KeyboardEventTypes.KEYUP:
-                    this.player.inputMap[kbInfo.event.code] = false;
-                    break;
+        if(this.notExist){
+            scene.onKeyboardObservable.add((kbInfo) => {
+                switch(kbInfo.type){
+                    case KeyboardEventTypes.KEYDOWN:
+                        this.player.inputMap[kbInfo.event.code] = true;
+                        this.rotatePlayer(kbInfo);
+                        break;
+                    case KeyboardEventTypes.KEYUP:
+                        this.player.inputMap[kbInfo.event.code] = false;
+                        this.rotatePlayer(kbInfo);
+                        break;
+                }
+            });
+
+            this.notExist = false;
+        }
+        
+        this.rotateLeft = false;
+        this.rotateRight = false;
+
+
+    }
+
+    rotatePlayer(kbInfo){
+        if(kbInfo.type == KeyboardEventTypes.KEYDOWN){
+            if((kbInfo.event.code == "KeyA" || kbInfo.event.code == "KeyQ") && !this.rotateLeft){
+                this.rotateLeft = true;
+                this.player.player.rotateAround(new Vector3(0,0,0), new Vector3(0,1,0), -Math.PI/8);
             }
-        });
+            if(kbInfo.event.code == "KeyD" && !this.rotateRight){
+                this.rotateRight = true;
+                this.player.player.rotateAround(new Vector3(0,0,0), new Vector3(0,1,0), Math.PI/8);
+            }
+        }
+
+        if(kbInfo.type == KeyboardEventTypes.KEYUP){
+            if(kbInfo.event.code == "KeyA" || kbInfo.event.code == "KeyQ"){
+                this.rotateLeft = false;
+                this.player.player.rotateAround(new Vector3(0,0,0), new Vector3(0,1,0), Math.PI/8);
+            }
+            if(kbInfo.event.code == "KeyD"){
+                this.rotateRight = false;
+                this.player.player.rotateAround(new Vector3(0,0,0), new Vector3(0,1,0), -Math.PI/8);
+            }
+        }
+
     }
 
     addPlatform(x,y,z,width,depth,angle,scene){

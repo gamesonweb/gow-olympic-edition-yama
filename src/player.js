@@ -1,5 +1,5 @@
 import { ActionManager, ExecuteCodeAction, FollowCamera, MeshBuilder, PhysicsImpostor, SceneLoader, Vector3 } from "@babylonjs/core";
-import playerMesh  from "../assets/models/player.glb";
+import playerMesh  from "../assets/models/skiier.glb";
 
 var MOVEX = 30;
 var MOVEY = 4;
@@ -28,11 +28,12 @@ class Player{
 
     async loadPlayer(x,y,z,scene){
         var player = await SceneLoader.ImportMeshAsync("", "", playerMesh, scene);
-        player.meshes[0].scaling = new Vector3(1,1,1);
-        player.meshes[0].rotateAround(new Vector3(0,0,0), new Vector3(0,1,0), Math.PI);
+        player.meshes[0].scaling = new Vector3(0.5,0.5,0.5);
+        player.meshes[0].rotateAround(new Vector3(0,0,0), new Vector3(0,1,0), Math.PI/2);
+        //player.meshes[0].rotateAround(new Vector3(0,0,0), new Vector3(1,0,0), Math.PI/8);
         player.meshes[0].name = "playerModel";
-        player.animationGroups[0].stop();
-        player.animationGroups[1].start(true);
+        //player.animationGroups[0].stop();
+        //player.animationGroups[1].start(true);
 
 
         this.player = player.meshes[0];
@@ -59,7 +60,7 @@ class Player{
             followCamera.cameraAcceleration = 0.1;
             followCamera.maxCameraSpeed = 5;
             //followCamera.attachControl(scene.getEngine().getRenderingCanvas(), true);
-            followCamera.lockedTarget = this.player;
+            followCamera.lockedTarget = this.playerBox;
             scene.activeCamera = followCamera;
         this.camera = followCamera;
     }
@@ -135,6 +136,7 @@ class Player{
                         parameter: end
                     }
                 ,() => {
+                    this.player.rotateAround(new Vector3(0,0,0), new Vector3(1,0,0), -Math.PI/8);
                     console.log("Finished!");
                     this.finished = true;
                 }
@@ -151,6 +153,7 @@ class Player{
                 }
             ,() => {
                 console.log("Start!");
+                this.player.rotateAround(new Vector3(0,0,0), new Vector3(1,0,0), Math.PI/8);
                 this.finished = false;
                 this.currentSpeed = 0;
                 this.score = 0;
