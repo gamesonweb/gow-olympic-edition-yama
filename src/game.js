@@ -18,12 +18,12 @@ class Game {
     }
 
     init() {
-        this.engine.displayLoadingUI();
+        //this.engine.displayLoadingUI();
         console.log("Game is initializing...");
         this.createScene().then(() => {
             
         });
-        this.engine.hideLoadingUI();
+        //this.engine.hideLoadingUI();
         
 
     }

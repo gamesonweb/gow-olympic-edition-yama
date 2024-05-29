@@ -18,6 +18,20 @@ class LevelManager{
         this.currentLevel = 0;
         this.lvl1BestScore = 0;
         this.lvl2BestScore = 0;
+
+        this.addMenuListener();
+        
+    }
+
+    addMenuListener(scene){
+        document.getElementById('menuButton').addEventListener('click', function() {
+            var menuContent = document.getElementById('menuContent');
+            if (menuContent.style.display === 'none' || menuContent.style.display === '') {
+              menuContent.style.display = 'block';
+            } else {
+              menuContent.style.display = 'none';
+            }
+          });
     }
 
     init(scene){
@@ -100,12 +114,28 @@ class LevelManager{
         startTrigger.forEach((start) => start.dispose());
     }
 
-
     async loadMountain(scene){
         var mountain = await SceneLoader.ImportMeshAsync("","",mountainModel,scene);
         mountain.meshes[0].scaling = new Vector3(1,1,1);
         mountain.meshes[0].name = "mountain";
 
+    }
+
+    switchLevelMenu(level,scene){
+        console.log("hello")
+        switch(level){
+            case 0:
+                this.tutorial(scene);
+                break;
+            case 1:
+                this.level1(scene);
+                break;
+            case 2:
+                this.level2(scene);
+                break;
+            default:
+                break;
+        }
     }
 
     switchLevel(scene){
@@ -161,6 +191,7 @@ class LevelManager{
         console.log("Menu")
         this.init(scene);
         this.switchLevel(scene);
+        scene.getEngine().displayLoadingUI();
         this.loadMountain(scene).then(() => {
             
             const freeCamera = new FreeCamera("camera1", new Vector3(0, 20, 15), scene);
@@ -216,7 +247,10 @@ class LevelManager{
                 }
             ));
 
+            
+
         });
+        scene.getEngine().hideLoadingUI();
     }
 
     tutorial(scene){
