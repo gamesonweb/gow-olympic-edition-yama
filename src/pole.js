@@ -14,12 +14,12 @@ class Pole{
 
             if(left =="True"){
                 var blueMaterial = new StandardMaterial("blueMaterial", scene);
-                blueMaterial.diffuseColor = new Color3(0, 0, 1); // bleu
+                blueMaterial.diffuseColor = new Color3(0, 0, 255); // bleu
                 this.poleModel.material = blueMaterial;
             }
             else{
                 var redMaterial = new StandardMaterial("redMaterial", scene);
-                redMaterial.diffuseColor = new Color3(1, 0, 0); // rouge
+                redMaterial.diffuseColor = new Color3(255, 0, 0); // rouge
                 this.poleModel.material = redMaterial;
             }
 

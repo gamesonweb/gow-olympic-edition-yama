@@ -50,7 +50,7 @@ class Game {
         
         
         this.levelM = new LevelManager();
-        this.levelM.tutorial(this.scene);
+        this.levelM.menu(this.scene);
 
         this.addLight();
 
