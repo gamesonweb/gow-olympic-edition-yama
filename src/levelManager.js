@@ -7,7 +7,7 @@ import { ActionManager, ExecuteCodeAction, FreeCamera, KeyboardEventTypes, MeshB
 
 import { SceneLoader } from '@babylonjs/core/Loading/sceneLoader';
 import standModel from "../assets/models/seating__bleacher.glb";
-import mountainModel from "../assets/models/mount_timpanogos_early_2017.glb";
+import mountainModel from "../assets/models/snowy_mountain.glb";
 
 class LevelManager{
     constructor(){
@@ -165,7 +165,7 @@ class LevelManager{
     menu(scene){
         console.log("Menu");
 
-        this.MusicLoader.playMenuMusic();
+        //this.MusicLoader.playMenuMusic();
 
         this.init(scene);
         this.switchLevel(scene);
