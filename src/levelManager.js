@@ -2,6 +2,7 @@ import Platform from './platform.js';
 import Pole from './pole.js';
 import ModelLoading from './3DModelLoading.js';
 import Player from './player.js';
+import MusicLoader from './Music.js';
 import { ActionManager, ExecuteCodeAction, FreeCamera, KeyboardEventTypes, MeshBuilder, Scene, Trajectory, Vector3 } from '@babylonjs/core';
 
 import { SceneLoader } from '@babylonjs/core/Loading/sceneLoader';
@@ -20,25 +21,15 @@ class LevelManager{
         this.lvl2BestScore = 0;
         this.notExist = true;
 
-        this.addMenuListener();
+        this.MusicLoader = new MusicLoader();
         
-    }
-
-    addMenuListener(scene){
-        document.getElementById('menuButton').addEventListener('click', function() {
-            var menuContent = document.getElementById('menuContent');
-            if (menuContent.style.display === 'none' || menuContent.style.display === '') {
-              menuContent.style.display = 'block';
-            } else {
-              menuContent.style.display = 'none';
-            }
-          });
     }
 
     init(scene){
         this.platforms = [];
         this.poles = [];
         this.box = [];
+        //this.MusicLoader.stopMenuMusic();
 
         document.getElementById("bestScore").innerHTML = "Best Score: 0";
         if(this.currentLevel == 1){
@@ -122,23 +113,6 @@ class LevelManager{
 
     }
 
-    switchLevelMenu(level,scene){
-        console.log("hello")
-        switch(level){
-            case 0:
-                this.tutorial(scene);
-                break;
-            case 1:
-                this.level1(scene);
-                break;
-            case 2:
-                this.level2(scene);
-                break;
-            default:
-                break;
-        }
-    }
-
     switchLevel(scene){
         setInterval(() => {
             if(this.player != null){
@@ -171,6 +145,7 @@ class LevelManager{
                             break;
                         case 2:
                             this.init(scene);
+                            this.MusicLoader.playLevelMusic(1);
                             this.level2(scene);
                             break;
 
@@ -188,7 +163,10 @@ class LevelManager{
     }
 
     menu(scene){
-        console.log("Menu")
+        console.log("Menu");
+
+        this.MusicLoader.playMenuMusic();
+
         this.init(scene);
         this.switchLevel(scene);
         scene.getEngine().displayLoadingUI();
@@ -210,6 +188,8 @@ class LevelManager{
                     }
                 ,() => {
                     console.log("Start game!");
+                    this.MusicLoader.stopMenuMusic();
+                    this.MusicLoader.playLevelMusic(0);
                     this.currentLevel = 0;
                     this.tutorial(scene);
                 }
@@ -226,6 +206,8 @@ class LevelManager{
                     }
                 ,() => {
                     console.log("Start game!");
+                    this.MusicLoader.stopMenuMusic();
+                    this.MusicLoader.playLevelMusic(0);
                     this.currentLevel = 1;
                     this.level1(scene);
                 }
@@ -242,6 +224,8 @@ class LevelManager{
                     }
                 ,() => {
                     console.log("Start game!");
+                    this.MusicLoader.stopMenuMusic();
+                    this.MusicLoader.playLevelMusic(1);
                     this.currentLevel = 2;
                     this.level2(scene);
                 }
@@ -507,10 +491,6 @@ class LevelManager{
         this.stand.meshes[0].rotateAround(new Vector3(0,0,0), new Vector3(0,0,0), Math.PI);
         this.stand.meshes[0].position = new Vector3(x,y,z);
     }
-
-
-
-
 
 }
 
