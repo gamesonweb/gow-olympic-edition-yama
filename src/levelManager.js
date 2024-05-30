@@ -3,7 +3,7 @@ import Pole from './pole.js';
 import ModelLoading from './3DModelLoading.js';
 import Player from './player.js';
 import MusicLoader from './Music.js';
-import { ActionManager, ExecuteCodeAction, FreeCamera, KeyboardEventTypes, MeshBuilder, Scene, Trajectory, Vector3 } from '@babylonjs/core';
+import { ActionManager, Color3, ExecuteCodeAction, FreeCamera, KeyboardEventTypes, MeshBuilder, Scene, StandardMaterial, Trajectory, Vector3 } from '@babylonjs/core';
 
 import { SceneLoader } from '@babylonjs/core/Loading/sceneLoader';
 import standModel from "../assets/models/seating__bleacher.glb";
@@ -171,68 +171,16 @@ class LevelManager{
         this.switchLevel(scene);
         scene.getEngine().displayLoadingUI();
         this.loadMountain(scene).then(() => {
-            
-            const freeCamera = new FreeCamera("camera1", new Vector3(0, 20, 15), scene);
-            freeCamera.setTarget(new Vector3(15,18,0));
-            freeCamera.attachControl(scene.getEngine().getRenderingCanvas(), true);
+            const freeCamera = new FreeCamera("camera1", new Vector3(0, 50,150 ), scene);
+            freeCamera.setTarget(new Vector3(0,45,0));
+            //freeCamera.attachControl(scene.getEngine().getRenderingCanvas(), true);
             scene.activeCamera = freeCamera;
 
-            var tutoPole = MeshBuilder.CreateCapsule("tutorialPole", {width: 1, height: 10, depth: 1}, scene);
-            tutoPole.position = new Vector3(20,10,0);
-            tutoPole.actionManager = new ActionManager(scene);
-            tutoPole.actionManager.registerAction(
-                new ExecuteCodeAction(
-                    {
-                        trigger: ActionManager.OnPickTrigger,
-                        parameter: tutoPole
-                    }
-                ,() => {
-                    console.log("Start game!");
-                    this.MusicLoader.stopMenuMusic();
-                    this.MusicLoader.playLevelMusic(0);
-                    this.currentLevel = 0;
-                    this.tutorial(scene);
-                }
-            ));
+            this.menuTutorial(scene);
+            this.menuLevel1(scene);
+            this.menuLevel2(scene);
 
-            var level1Pole = MeshBuilder.CreateCapsule("level1Pole", {width: 1, height: 10, depth: 1}, scene);
-            level1Pole.position = new Vector3(15,12,0);
-            level1Pole.actionManager = new ActionManager(scene);
-            level1Pole.actionManager.registerAction(
-                new ExecuteCodeAction(
-                    {
-                        trigger: ActionManager.OnPickTrigger,
-                        parameter: level1Pole
-                    }
-                ,() => {
-                    console.log("Start game!");
-                    this.MusicLoader.stopMenuMusic();
-                    this.MusicLoader.playLevelMusic(0);
-                    this.currentLevel = 1;
-                    this.level1(scene);
-                }
-            ));
-
-            var level2Pole = MeshBuilder.CreateCapsule("level2Pole", {width: 1, height: 10, depth: 1}, scene);
-            level2Pole.position = new Vector3(10,14,0);
-            level2Pole.actionManager = new ActionManager(scene);
-            level2Pole.actionManager.registerAction(
-                new ExecuteCodeAction(
-                    {
-                        trigger: ActionManager.OnPickTrigger,
-                        parameter: level2Pole
-                    }
-                ,() => {
-                    console.log("Start game!");
-                    this.MusicLoader.stopMenuMusic();
-                    this.MusicLoader.playLevelMusic(1);
-                    this.currentLevel = 2;
-                    this.level2(scene);
-                }
-            ));
-
-            
-
+            this.MusicLoader.playMenuMusic();
         });
         scene.getEngine().hideLoadingUI();
     }
@@ -480,6 +428,77 @@ class LevelManager{
         for(var i =0; i < this.box.length; i++){
             this.addStand(this.box[i].position.x +45,this.box[i].position.y+7,this.box[i].position.z - 30,scene);
         }
+    }
+
+    menuTutorial(scene){
+        var tutoPole = MeshBuilder.CreateCapsule("tutorialPole", {height: 50, radius:0.5}, scene);
+        tutoPole.position = new Vector3(80,20,40);
+        var tutoPoleMat = new StandardMaterial("tutoPoleMat", scene);
+        tutoPoleMat.diffuseColor = new Color3(255, 255, 0);
+        tutoPole.material = tutoPoleMat;
+        tutoPole.actionManager = new ActionManager(scene);
+        tutoPole.actionManager.registerAction(
+            new ExecuteCodeAction(
+                {
+                    trigger: ActionManager.OnPickTrigger,
+                    parameter: tutoPole
+                }
+            ,() => {
+                console.log("Start game!");
+                this.MusicLoader.stopMenuMusic();
+                this.MusicLoader.playLevelMusic(0);
+                this.currentLevel = 0;
+                this.tutorial(scene);
+            }
+        ));
+    }
+
+    menuLevel1(scene){
+        var level1Pole = MeshBuilder.CreateCapsule("level1Pole", {height: 50,radius:0.5}, scene);
+            level1Pole.position = new Vector3(60,25,20);
+            var tutoPoleMat = new StandardMaterial("tutoPoleMat", scene);
+            tutoPoleMat.diffuseColor = new Color3(255, 255, 0);
+            level1Pole.material = tutoPoleMat;
+            level1Pole.actionManager = new ActionManager(scene);
+            level1Pole.actionManager.registerAction(
+                new ExecuteCodeAction(
+                    {
+                        trigger: ActionManager.OnPickTrigger,
+                        parameter: level1Pole
+                    }
+                ,() => {
+                    console.log("Start game!");
+                    this.MusicLoader.stopMenuMusic();
+                    this.MusicLoader.playLevelMusic(0);
+                    this.currentLevel = 1;
+                    this.level1(scene);
+                }
+            ));
+
+    }
+
+    menuLevel2(scene){
+        
+        var level2Pole = MeshBuilder.CreateCapsule("level2Pole", {height: 50, radius:0.5}, scene);
+        level2Pole.position = new Vector3(50,30,5);
+        var level2PoleMat = new StandardMaterial("level2PoleMat", scene);
+        level2PoleMat.diffuseColor = new Color3(255, 0, 0);
+        level2Pole.material = level2PoleMat;
+        level2Pole.actionManager = new ActionManager(scene);
+        level2Pole.actionManager.registerAction(
+            new ExecuteCodeAction(
+                {
+                    trigger: ActionManager.OnPickTrigger,
+                    parameter: level2Pole
+                }
+            ,() => {
+                console.log("Start game!");
+                this.MusicLoader.stopMenuMusic();
+                this.MusicLoader.playLevelMusic(1);
+                this.currentLevel = 2;
+                this.level2(scene);
+            }
+        ));
     }
 
     async addStand(x,y,z,scene){
