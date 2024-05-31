@@ -19,7 +19,7 @@ class MusicLoader{
 
     playMenuMusic(){
         this.menuMusic.currentTime = 0;
-        //this.menuMusic.play();
+        this.menuMusic.play();
         this.menuMusic.loop = true;
     }
 
@@ -31,7 +31,7 @@ class MusicLoader{
         console.log("Playing level music")
         this.menuMusic.pause();
         this.levelMusic[level].currentTime = 0;
-        //this.levelMusic[level].play();
+        this.levelMusic[level].play();
         this.levelMusic[level].loop = true;
         this.stopLevelMusic(level);
     }
