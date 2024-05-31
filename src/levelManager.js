@@ -148,7 +148,7 @@ class LevelManager{
         this.ModelLoading.loadMountain(scene).then(() => {
             const freeCamera = new FreeCamera("camera1", new Vector3(0, 50,150 ), scene);
             freeCamera.setTarget(new Vector3(0,45,0));
-            freeCamera.attachControl(scene.getEngine().getRenderingCanvas(), true);
+            //freeCamera.attachControl(scene.getEngine().getRenderingCanvas(), true);
             scene.activeCamera = freeCamera;
 
             this.ActionMenu.menuTutorial(scene);
