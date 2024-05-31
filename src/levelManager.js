@@ -36,15 +36,24 @@ class LevelManager{
         //this.MusicLoader.stopMenuMusic();
 
         document.getElementById("bestScore").innerHTML = "Best Score: 0";
-        if(this.currentLevel == 1){
-            console.log("Best Score: " + this.lvl1BestScore)
-            document.getElementById("bestScore").innerHTML = "Best Score: " + this.lvl1BestScore;
+        switch(this.currentLevel){
+            case 1:
+                document.getElementById("bestScore").innerHTML = "Best Score: " + this.lvl1BestScore;
+                break;
+            case 2:
+                document.getElementById("bestScore").innerHTML = "Best Score: " + this.lvl2BestScore;
+                break;
+            case 3:
+                document.getElementById("bestScore").innerHTML = "Best Score: " + this.lvl3BestScore;
+                break;
+            case 4:
+                document.getElementById("bestScore").innerHTML = "Best Score: " + this.lvl4BestScore;
+                break;
+            default:
+                document.getElementById("bestScore").innerHTML = "Best Score: 0";
+                break;
         }
-
-        if(this.currentLevel == 2){
-            document.getElementById("bestScore").innerHTML = "Best Score: " + this.lvl2BestScore;
-        }
-
+        
         if(this.player != null){
             scene.getMeshByName("playerBox").dispose();
             scene.getMeshByName("playerModel").dispose();

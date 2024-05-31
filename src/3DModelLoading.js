@@ -1,9 +1,10 @@
-import { MeshBuilder, SceneLoader, Vector3 } from "@babylonjs/core";
+import { MeshBuilder, SceneLoader, StandardMaterial, Texture, Vector3 } from "@babylonjs/core";
 import cubeModel from "../assets/models/ice_cube.glb";
 import mountainModel from "../assets/models/snowy_mountain.glb";
 import snowflakeModel from "../assets/models/falling_snow_loop.glb";
 import treeModel from "../assets/models/fur_tree.glb";
 import standModel from "../assets/models/seating__bleacher.glb";
+import snowTexture from "../assets/textures/6_snow_texture-seamless.jpg";
 
 const MAXTREE = 10;
 class ModelLoading{
@@ -44,6 +45,13 @@ class ModelLoading{
 
     scenaryCube(x,y,z,left,scene){
         var box = MeshBuilder.CreateBox("box", {width: 30, height: 20, depth: 50}, scene);
+        // Créer un matériau avec une texture de neige
+        var snowMaterial = new StandardMaterial("snowMaterial", scene);
+        snowMaterial.diffuseTexture = new Texture(snowTexture, scene); // Remplacez par le chemin vers votre texture de neige
+        box.material = snowMaterial;
+
+        // Appliquer le matériau au cube
+        box.material = snowMaterial;
             box.checkCollisions = true;
             var newX = 0;
             if(left){

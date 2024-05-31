@@ -1,4 +1,4 @@
-import { ActionManager, ExecuteCodeAction, FollowCamera, MeshBuilder, PhysicsImpostor, SceneLoader, Vector3 } from "@babylonjs/core";
+import { ActionManager, Color4, ExecuteCodeAction, FollowCamera, MeshBuilder, ParticleSystem, PhysicsImpostor, SceneLoader, Texture, TransformNode, Vector3 } from "@babylonjs/core";
 import playerMesh  from "../assets/models/skiier.glb";
 
 var MOVEX = 30;

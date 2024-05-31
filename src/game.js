@@ -2,6 +2,7 @@ import { BoundingInfo, Camera, Color3, Color4, CubeTexture, DefaultRenderingPipe
 import { Inspector } from "@babylonjs/inspector";
 
 import LevelManager from "./levelManager.js";
+import sky from "../assets/models/sky.hdr";
 
 
 class Game {
@@ -47,6 +48,8 @@ class Game {
         const freeCamera = new FreeCamera("FreeCamera", new Vector3(0, 5, -10), this.scene);
         freeCamera.setTarget(Vector3.Zero());
         freeCamera.attachControl(this.canvas, true);
+
+        this.addSkyBox();
         
         
         this.levelM = new LevelManager();
@@ -56,7 +59,7 @@ class Game {
         
     }
     
-    addLight(){
+    addLight(){   
         this.scene.clearColor = new Color3(0.7, 0.7, 0.95);
         this.scene.ambientColor = new Color3(0.8, 0.8, 1);
         this.scene.collisionsEnabled = true;
@@ -71,11 +74,17 @@ class Game {
 
         // Default intensity is 1. Let's dim the light a small amount
         light.intensity = 1;
-
     }
 
     addInspector() {
         this.scene.debugLayer.show();
+    }
+
+    addSkyBox(){
+        var hdrTexture = new HDRCubeTexture(sky, this.scene, 1024);
+        hdrTexture.coordinatesMode = Texture.SKYBOX_MODE;
+        hdrTexture.level = 1;
+        this.scene.createDefaultSkybox(hdrTexture, true, 10000);
     }
 }
 
