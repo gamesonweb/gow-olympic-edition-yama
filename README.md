@@ -7,10 +7,10 @@ Kazenoyama : Kishan Turpin
 # URL of the game
 https://gamesonweb.github.io/gow-olympic-edition-yama/
 
-#Gameplay video
+## Gameplay video
 https://youtu.be/POyREjM3930
 
-#The team
+## The team
 
 ## Context:
 You are an athlete for the slalom championship!   
