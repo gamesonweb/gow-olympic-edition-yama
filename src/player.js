@@ -180,6 +180,47 @@ class Player{
             }
             )
         );
+
+        var reset = scene.getMeshByName("reset");
+        player.actionManager.registerAction(
+            new ExecuteCodeAction(
+                {
+                    trigger: ActionManager.OnIntersectionEnterTrigger,
+                    parameter: reset
+                }
+            ,() => {
+                if(this.finished == false){
+                    console.log("Reset!");
+                    this.playerBox.position = new Vector3(0,0,0);
+                    //this.player.rotateAround(new Vector3(0,0,0), new Vector3(1,0,0), Math.PI/8);
+                    this.finished = false;
+                    this.currentSpeed = 0;
+                    this.score = 0;
+                    this.updateScore();
+                }
+            }
+            )
+        );
+
+        player.actionManager.registerAction(
+            new ExecuteCodeAction(
+                {
+                    trigger: ActionManager.OnIntersectionExitTrigger,
+                    parameter: reset
+                }
+            ,() => {
+                console.log("Reset!");
+                if(this.finished == false){
+                    this.playerBox.position = new Vector3(0,0,0);
+                    //this.player.rotateAround(new Vector3(0,0,0), new Vector3(1,0,0), Math.PI/8);
+                    this.finished = false;
+                    this.currentSpeed = 0;
+                    this.score = 0;
+                    this.updateScore();
+                }
+            }
+            )
+        );
         
     }
 

@@ -127,6 +127,7 @@ class LevelManager{
         ////Loading all assets
         this.ModelLoading.loadTree(scene);
         this.ModelLoading.loadStand(scene);
+        this.ModelLoading.loadRedArrow(scene);
 
 
         this.MusicLoader.playMenuMusic();
@@ -160,6 +161,7 @@ class LevelManager{
     tutorial(scene){
         console.log("Tutorial level");
         this.init(scene);
+
         
 
         this.addStartPlatform(scene);
@@ -192,6 +194,7 @@ class LevelManager{
             }
         }
         this.addEndPlatform(scene,maxPlatforms);
+        this.addReset(scene);
         this.addPlayer(scene);
     }
 
@@ -230,6 +233,7 @@ class LevelManager{
             }
         }
         this.addEndPlatform(scene,maxPlatforms);
+        this.addReset(scene);
         this.addPlayer(scene);
 
     }
@@ -267,6 +271,7 @@ class LevelManager{
         }
 
         this.addEndPlatform(scene,maxPlatforms);
+        this.addReset(scene);
         this.addPlayer(scene);
 
         
@@ -327,6 +332,7 @@ class LevelManager{
             }
         }
         this.addEndPlatform(scene,maxPlatforms);
+        this.addReset(scene);
         this.addPlayer(scene);
     }
 
@@ -382,6 +388,7 @@ class LevelManager{
             this.addPole(x + r,y,z,left,right,scene);
         }
         this.addEndPlatform(scene,maxPlatforms);
+        this.addReset(scene);
         this.addPlayer(scene);
     }
 
@@ -495,6 +502,13 @@ class LevelManager{
             endTrigger4.isVisible = false;
             endTrigger4.checkCollisions = false;
         }
+    }
+
+    addReset(scene){
+        var reset = MeshBuilder.CreateBox("reset", {width: 1000, height: 5, depth: 1000}, scene);
+        reset.position = new Vector3(0,-1000,0);
+        reset.isVisible = false;
+        reset.checkCollisions = false;
     }
 
   
