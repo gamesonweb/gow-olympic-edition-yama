@@ -4,8 +4,14 @@ ThePhoenix 78 / JulienLcq : Julien Lecocq
 Antoine Bruneau / verix33 : Antoine Bruneau  
 Kazenoyama : Kishan Turpin  
 
-## Context:
+# URL of the game
+https://gamesonweb.github.io/gow-olympic-edition-yama/
 
+#Gameplay video
+
+#The team
+
+## Context:
 You are an athlete for the slalom championship!   
 Your goal is to get the maximum point in each level!   
 The difficulty of a level is represented by the color of the pole in the menu.
