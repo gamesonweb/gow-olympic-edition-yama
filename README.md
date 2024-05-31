@@ -32,11 +32,17 @@ To get to the next level, you just need to get to the finish line, even if you g
 The player is a snowman who wants to trained for the next olympic event.   
 For that he goes to the mountain and challange it to perfectionne its techniques
 
+### Tutorial :
+
+The tutorial (yellow) makes sure that you understand the basis of the game
+
+ ## Levels
+
+ The levels are desinged to fit the color code for sky
+
 ### First Level :
 
-
-
-
+The first level (green) is quite easy
   
 
 
