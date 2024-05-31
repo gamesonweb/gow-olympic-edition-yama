@@ -4,7 +4,6 @@ import mountainModel from "../assets/models/snowy_mountain.glb";
 import snowflakeModel from "../assets/models/falling_snow_loop.glb";
 import treeModel from "../assets/models/fur_tree.glb";
 import standModel from "../assets/models/seating__bleacher.glb";
-import redArrow from "../assets/models/fleche_rouge.glb";
 
 const MAXTREE = 10;
 class ModelLoading{
@@ -41,13 +40,6 @@ class ModelLoading{
         stand.meshes[0].position = new Vector3(1000,1000,1000);
         stand.meshes[0].name = "stand";
         this.stand = stand;
-    }
-
-    async loadRedArrow(scene){
-        //var redArrow = await SceneLoader.ImportMeshAsync("","",redArrow,scene);
-        //redArrow.meshes[0].scaling = new Vector3(10,10,10);
-        //redArrow.meshes[0].position = new Vector3(0,60,0);
-        //redArrow.meshes[0].name = "redArrow";
     }
 
     scenaryCube(x,y,z,left,scene){

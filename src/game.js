@@ -1,6 +1,5 @@
 import { BoundingInfo, Camera, Color3, Color4, CubeTexture, DefaultRenderingPipeline, FollowCamera, FreeCamera, HDRCubeTexture, HemisphericLight, KeyboardEventTypes, MeshBuilder, MotionBlurPostProcess, PBRMaterial, Scalar, Scene, SceneLoader, Sound, StandardMaterial, Texture, Vector3 } from "@babylonjs/core";
 import { Inspector } from "@babylonjs/inspector";
-//import sky from "../assets/models/kloppenheim_01_puresky_2k.hdr";
 
 import LevelManager from "./levelManager.js";
 
@@ -52,7 +51,6 @@ class Game {
         
         this.levelM = new LevelManager();
         this.levelM.menu(this.scene);
-        //this.addSkyBox();   
 
         this.addLight();
 
@@ -74,23 +72,6 @@ class Game {
 
         // Default intensity is 1. Let's dim the light a small amount
         light.intensity = 1;
-
-    }
-
-    addSkyBox(){
-         // Load the HDR texture
-        var hdrTexture = new HDRCubeTexture(sky, this.scene, 512);
-
-        // Create a skybox material
-        var hdrSkyboxMaterial = new PBRMaterial("skyBox", this.scene);
-        hdrSkyboxMaterial.backFaceCulling = false;
-        hdrSkyboxMaterial.reflectionTexture = hdrTexture;
-        hdrSkyboxMaterial.microSurface = 1.0;
-        hdrSkyboxMaterial.disableLighting = true;
-
-        // Create a large box and apply the material
-        var hdrSkybox = MeshBuilder.CreateBox("hdrSkyBox", { size: 1000.0 }, this.scene);
-        hdrSkybox.material = hdrSkyboxMaterial;
 
     }
 

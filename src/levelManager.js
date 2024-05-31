@@ -127,7 +127,6 @@ class LevelManager{
         ////Loading all assets
         this.ModelLoading.loadTree(scene);
         this.ModelLoading.loadStand(scene);
-        this.ModelLoading.loadRedArrow(scene);
 
 
         this.MusicLoader.playMenuMusic();
