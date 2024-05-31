@@ -23,7 +23,6 @@ class ModelLoading{
         snowflake.meshes[0].scaling = new Vector3(50,50,50);
         snowflake.meshes[0].name = "snowflake";
         snowflake.animationGroups[0].start(true);
-        console.log("Snowflake loaded")
 
     }
 
@@ -33,7 +32,6 @@ class ModelLoading{
         tree.meshes[0].name = "tree";
         tree.meshes[0].position = new Vector3(1000,1000,1000);
         this.tree = tree;
-        //return tree;
     }
 
     async loadStand(scene){
@@ -82,7 +80,6 @@ class ModelLoading{
         for(var i = 0; i < MAXTREE; i++){
             if(this.tree != null){
                 var tree = scene.getMeshByName("tree").clone("treeCloned");
-                console.log(tree);
                 var randomZ = Math.random() * 50 - 25;
                 var randomX = Math.random() * 30 - 15;
                 tree.position = new Vector3(x + randomX,y+10,z+randomZ);
@@ -121,7 +118,6 @@ class ModelLoading{
         for(var i = 0; i < MAXTREE; i++){
             if(this.tree != null){
                 var tree = scene.getMeshByName("tree").clone("treeCloned");
-                console.log(tree);
                 var randomZ = Math.random() * ( -25 - (-10) ) + (-10);
                 var randomX = Math.random() * 30 - 15;
                 tree.position = new Vector3(x + randomX,y+10,z+randomZ);
@@ -130,8 +126,6 @@ class ModelLoading{
             }
         }
     }
-
-
 
     deleteAll(scene){
         var mountain = scene.getMeshByName("mountain");
@@ -148,6 +142,7 @@ class ModelLoading{
             tutoPole.actionManager.dispose();
             tutoPole.dispose();}
 
+            /*
         var level1Pole = scene.getMeshByName("level1Pole");
         if(level1Pole != null){
             level1Pole.actionManager.dispose();
@@ -156,7 +151,14 @@ class ModelLoading{
         var level2Pole = scene.getMeshByName("level2Pole");
         if(level2Pole != null){
             level2Pole.actionManager.dispose();
-            level2Pole.dispose();}
+            level2Pole.dispose();}*/
+
+
+        var levelPole = scene.meshes.filter((mesh) => mesh.name.includes("level"));
+        levelPole.forEach((level) => {
+            level.actionManager.dispose();
+            level.dispose();
+        });
 
         var allPole = scene.meshes.filter((mesh) => mesh.name == "poleBox");
         allPole.forEach((pole) => pole.dispose());
@@ -188,7 +190,7 @@ class ModelLoading{
         var endPlatform = scene.getMeshByName("EndPlatform");
         if(endPlatform != null){endPlatform.dispose();}
 
-        var startTrigger = scene.meshes.filter((mesh) => mesh.name == "startTrigger");
+        var startTrigger = scene.meshes.filter((mesh) => mesh.name == "starttrigger");
         startTrigger.forEach((start) => start.dispose());
     }
 }

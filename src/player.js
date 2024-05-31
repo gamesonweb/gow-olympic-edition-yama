@@ -9,14 +9,17 @@ var GRAVITY = -1.0;
 const TOPSPEED = 10;
 
 class Player{
-    constructor(){
+    constructor(musicLoader){
         this.name = "player";
         this.inputMap = {};
         this.camera;
         this.currentSpeed = 0;
         this.score = 0;
+        this.combo = 0;
         this.updateScore();
         this.finished = false;
+
+        this.musicLoader = musicLoader;
     }
 
     loadPlayerOnScene(x,y,z,scene){
@@ -86,12 +89,16 @@ class Player{
                     }
                 ,() => {
                     console.log("Hit a pole!");
-                    if(this.score <= 0){
+                    this.musicLoader.playLoseSound();
+                    if(this.score <= 2){
                         this.score = 0;
                     }
                     else{
                         this.score -= 3;
                     }
+                    this.combo = 0;
+                    this.updateCombo();
+                    
                     this.updateScore();
                     console.log("Score: " + this.score);
                 }
@@ -111,14 +118,20 @@ class Player{
                     console.log("Hit a trigger!");
                     if(trigger.name.includes("True")){
                         this.score += 5;
+                        this.musicLoader.playWinSound();
+                        this.combo += 1;
+                        this.updateCombo();
                     }
                     else{
-                        if(this.score <= 0){
+                        this.musicLoader.playLoseSound();
+                        if(this.score <= 4){
                             this.score = 0;
                         }
                         else{
                             this.score -= 5;
                         }
+                        this.combo = 0;
+                        this.updateCombo();
                     }
                     this.updateScore();
                     console.log("Score: " + this.score);
@@ -139,12 +152,14 @@ class Player{
                     this.player.rotateAround(new Vector3(0,0,0), new Vector3(1,0,0), -Math.PI/8);
                     console.log("Finished!");
                     this.finished = true;
+                    this.combo = 0;
+                    this.updateCombo();
                 }
                 )
             );
         });
 
-        var startPlatform = scene.getMeshByName("startTrigger");
+        var startPlatform = scene.getMeshByName("starttrigger");
         player.actionManager.registerAction(
             new ExecuteCodeAction(
                 {
@@ -223,6 +238,42 @@ class Player{
 
     updateScore(){
         document.getElementById("score").innerHTML = "Score: " + this.score;
+    }
+
+    updateCombo(){
+        
+        if(this.combo >= 10){
+            document.getElementById("comboCounter").style.color = "Green";
+            document.getElementById("comboCounter").style.fontSize = "40px";
+        }
+        if(this.combo >= 20){
+            document.getElementById("comboCounter").style.color = "Blue";
+            document.getElementById("comboCounter").style.fontSize = "40px";
+        }
+        if(this.combo >= 30){
+            document.getElementById("comboCounter").style.color = "Purple";
+            document.getElementById("comboCounter").style.fontSize = "45px";
+        }
+        if(this.combo >= 40){
+            document.getElementById("comboCounter").style.color = "Red";
+            document.getElementById("comboCounter").style.fontSize = "50px";
+        }
+        if(this.combo >= 80){
+            document.getElementById("comboCounter").style.color = "Gold";
+            document.getElementById("comboCounter").style.fontSize = "60px";
+        }
+        if(this.combo < 10){
+            document.getElementById("comboCounter").style.color = "White";
+            document.getElementById("comboCounter").style.fontSize = "35px";
+            document.getElementById("comboCounter").style.fontWeight = "bold";
+        }
+
+        if(this.combo == 0){
+            document.getElementById("comboCounter").innerHTML = "";
+        }
+        else{
+            document.getElementById("comboCounter").innerHTML = "x" + this.combo;
+        }
     }
 
 
