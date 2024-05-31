@@ -5,37 +5,31 @@ Antoine Bruneau / verix33 : Antoine Bruneau
 Kazenoyama : Kishan Turpin  
 
 ## Context:
-The goal of this ski game is to compete against an AI in a race down the mountain.  
-We want to change the speed of the race and maneuverability with the different type of snow we will add down the line.
+The goal of this game is to get the maximum point you can get in each level.
+The difficulty of a level is represented by the color of the pole in the menu.
 
-## What we did:
+Yellow = Tutorial
+Green = Easy
+Blue = Normal
+Red = Hard
+Black = Very Hard
 
-<img alt="Image of our UML" src="Yama.png" />
+To get points, you need to go left a of blue pole, right of the red pole.
+If you can chain multiple good point, a point multiplier will be granted to each level reacher.
+x10 = 1.25
+x20 = 1.5
+x30 = 1.75
+x40 = 2
+x80 = 3
 
-We begin our project with the help of the video of Olivier Arguimbau "From Scratch" to setup correctly all our library.  
-We then added a player and a first level to have something which can be used to test new idea.  
+To get to the next level, you just need to get to the finish line, even if you get 0 point, you will advance until you finished the Black difficulty.
 
 ### Player : 
-For the player, we use the model of "From Scratch" for now until we find a better model of someone skiing.  
-We attached the camera to player to keep the player on the screen.  
-The player can move right and left and have a velocity to keep it moving down the slope.  
-The velocity will depend on the angle of the slope and it is capped to a certain speed to prevent the player to accelerate infinitely.  
+The player is a snowman who wants to trained for the next olympic event. For that he goes to the mountain and challange it to perfectionne its techniques
 
 ### First Level :
-The first level loads the textures of the platform and load tree and obstacle model.  
-It then add them to the scene to be rendered.  
-It creates a straight line of 200 platforms.   
-We added tree and obstacle to try to compensate the effect of the straight line even if we have our slope going down.  
 
-## What we want to do :
-- We want to add an AI to compete against it.  
-- A system to upgrade the type of ski to make it faster or more maneuverable. If you win a race you gain coin and you can unlock new type of ski in a shop.  
-- Add different types of snow to change the pace of the race:  
-Regular snow maintains normal speed and maneuverability.  
-Icy snow increases speed faster but decreases lateral maneuverability.  
-Powder snow slows down the player but enhances maneuverability, especially around obstacles.  
-- Introduce different racing lines that offer both risk and reward. For example, choosing the icy snow line may allow you to potentially outspeed opponents, but there's a higher risk of falling due to reduced maneuverability when dodging obstacles
-- And finally add maybe some power-ups along the race to make a more arcade game.  
+
 
 
   
