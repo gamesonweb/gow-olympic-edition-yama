@@ -5,7 +5,9 @@ Antoine Bruneau / verix33 : Antoine Bruneau
 Kazenoyama : Kishan Turpin  
 
 ## Context:
-The goal of this game is to get the maximum point you can get in each level.   
+
+You are an athlete for the slalom championship!   
+Your goal is to get the maximum point in each level!   
 The difficulty of a level is represented by the color of the pole in the menu.
 
 **Levels :**
