@@ -14,24 +14,22 @@ https://youtu.be/POyREjM3930
 https://youtu.be/GIlM_thmFQM
 
 # Tutorial :
-How to launch the game :
+
+**How to launch the game :**
 - Step 1 : Click on the link above in "URL of the game".
 - Step 2 : Click on any color pole with your left click (Check below for which pole is which level)
 - Step 3 : Press Z or Q to move forward to begin the game.
 - Step 4 : Get the maximum point
 
+**Input :**
+- Z or W : speed up until you reach the maximum speed / Forward on the starting platform
+- Q or A : turn left
+- D : turn right
+- S : brake (you can't complety stop)
 
-Z or W : speed up until you reach the maximum speed / Forward on the starting platform
-Q or A : turn left
-D : turn right
-S : brake (you can't complety stop)
-
-How to get point :
+**How to get point :**
 - Blue pole : go left of the pole
 - Red pole : go right of the pole
-
-  
-
 
 # Context:
 You are an athlete for the slalom championship!   
