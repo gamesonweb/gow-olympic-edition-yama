@@ -142,18 +142,6 @@ class ModelLoading{
             tutoPole.actionManager.dispose();
             tutoPole.dispose();}
 
-            /*
-        var level1Pole = scene.getMeshByName("level1Pole");
-        if(level1Pole != null){
-            level1Pole.actionManager.dispose();
-            level1Pole.dispose();}
-
-        var level2Pole = scene.getMeshByName("level2Pole");
-        if(level2Pole != null){
-            level2Pole.actionManager.dispose();
-            level2Pole.dispose();}*/
-
-
         var levelPole = scene.meshes.filter((mesh) => mesh.name.includes("level"));
         levelPole.forEach((level) => {
             level.actionManager.dispose();

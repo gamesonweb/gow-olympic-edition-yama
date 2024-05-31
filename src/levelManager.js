@@ -113,10 +113,7 @@ class LevelManager{
 
                         default:
                             console.log("No more levels");
-                            this.currentLevel = 1;
-                            this.MusicLoader.playLevelMusic(0);
-                            this.init(scene);
-                            this.level1(scene);
+                            this.menu(scene);
                             
                             break;
                     }
@@ -133,6 +130,8 @@ class LevelManager{
 
 
         this.MusicLoader.playMenuMusic();
+        this.MusicLoader.stopLevelMusic(0);
+        this.MusicLoader.stopLevelMusic(1);
 
         this.init(scene);
         this.switchLevel(scene);
@@ -469,10 +468,10 @@ class LevelManager{
         this.platforms[this.platforms.length-1].platform.name = "EndPlatform";
 
         if(scene.getMeshByName("end") != null){
-            scene.getMeshByName("end").position = new Vector3(0,this.platforms[this.platforms.length-1].y,this.platforms[this.platforms.length-1].z-25);
-            scene.getMeshByName("end2").position = new Vector3(0,this.platforms[this.platforms.length-1].y,this.platforms[this.platforms.length-1].z-20);
-            scene.getMeshByName("end3").position = new Vector3(0,this.platforms[this.platforms.length-1].y,this.platforms[this.platforms.length-1].z-15);
-            scene.getMeshByName("end4").position = new Vector3(0,this.platforms[this.platforms.length-1].y,this.platforms[this.platforms.length-1].z-10);
+            scene.getMeshByName("end").position = new Vector3(this.platforms[this.platforms.length-1].x,this.platforms[this.platforms.length-1].y,this.platforms[this.platforms.length-1].z-25);
+            scene.getMeshByName("end2").position = new Vector3(this.platforms[this.platforms.length-1].x,this.platforms[this.platforms.length-1].y,this.platforms[this.platforms.length-1].z-20);
+            scene.getMeshByName("end3").position = new Vector3(this.platforms[this.platforms.length-1].x,this.platforms[this.platforms.length-1].y,this.platforms[this.platforms.length-1].z-15);
+            scene.getMeshByName("end4").position = new Vector3(this.platforms[this.platforms.length-1].x,this.platforms[this.platforms.length-1].y,this.platforms[this.platforms.length-1].z-10);
         }
         
         else{

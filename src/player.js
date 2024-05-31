@@ -18,6 +18,7 @@ class Player{
         this.combo = 0;
         this.updateScore();
         this.finished = false;
+        this.multiplicateur = 1;
 
         this.musicLoader = musicLoader;
     }
@@ -97,6 +98,7 @@ class Player{
                         this.score -= 3;
                     }
                     this.combo = 0;
+                    this.multiplicateur = 1;
                     this.updateCombo();
                     
                     this.updateScore();
@@ -117,7 +119,7 @@ class Player{
                 ,() => {
                     console.log("Hit a trigger!");
                     if(trigger.name.includes("True")){
-                        this.score += 5;
+                        this.score += 5 * this.multiplicateur;
                         this.musicLoader.playWinSound();
                         this.combo += 1;
                         this.updateCombo();
@@ -131,6 +133,7 @@ class Player{
                             this.score -= 5;
                         }
                         this.combo = 0;
+                        this.multiplicateur = 1;
                         this.updateCombo();
                     }
                     this.updateScore();
@@ -153,6 +156,7 @@ class Player{
                     console.log("Finished!");
                     this.finished = true;
                     this.combo = 0;
+                    this.multiplicateur = 1;
                     this.updateCombo();
                 }
                 )
@@ -245,22 +249,27 @@ class Player{
         if(this.combo >= 10){
             document.getElementById("comboCounter").style.color = "Green";
             document.getElementById("comboCounter").style.fontSize = "40px";
+            this.multiplicateur = 1.25;
         }
         if(this.combo >= 20){
             document.getElementById("comboCounter").style.color = "Blue";
             document.getElementById("comboCounter").style.fontSize = "40px";
+            this.multiplicateur = 1.5;
         }
         if(this.combo >= 30){
             document.getElementById("comboCounter").style.color = "Purple";
             document.getElementById("comboCounter").style.fontSize = "45px";
+            this.multiplicateur = 1.75;
         }
         if(this.combo >= 40){
             document.getElementById("comboCounter").style.color = "Red";
             document.getElementById("comboCounter").style.fontSize = "50px";
+            this.multiplicateur = 2;
         }
         if(this.combo >= 80){
             document.getElementById("comboCounter").style.color = "Gold";
             document.getElementById("comboCounter").style.fontSize = "60px";
+            this.multiplicateur = 3;
         }
         if(this.combo < 10){
             document.getElementById("comboCounter").style.color = "White";
