@@ -9,6 +9,7 @@ class Game {
     canvas;
     scene;
     activeCamera;
+    particleSystemSnow;
 
 
     constructor(engine, canvas) {
@@ -53,6 +54,50 @@ class Game {
         this.levelM.menu(this.scene);
 
         this.addLight();
+
+        // Create a particle system
+        this.particleSystemSnow = new ParticleSystem("particles", 2000, this.scene);
+        this.particleSystemSnow.gravity = new Vector3(0, -9.81, 0);
+        //Texture of each particle
+        this.particleSystemSnow.particleTexture = new Texture(flareParticleUrl, this.scene);
+        // Where the particles come from
+        this.particleSystemSnow.emitter = new TransformNode("spawnsnow", this.scene);
+        this.particleSystemSnow.emitter.parent = this.player;
+        this.particleSystemSnow.emitter.position.z = -1;
+        this.particleSystemSnow.minEmitBox = new Vector3(-.2, -.1, 1.5); // Bottom Left Front
+        this.particleSystemSnow.maxEmitBox = new Vector3(.2, 0, -.2); // Top Right Back
+
+        // Colors of all particles
+        this.particleSystemSnow.color1 = new Color4(0.8, 0.8, 1.0, 1.0);
+        this.particleSystemSnow.color2 = new Color4(0.7, 0.7, 1.0, 1.0);
+        this.particleSystemSnow.colorDead = new Color4(0.2, 0.2, 0.4, 0.0);
+
+        // Size of each particle (random between...
+        this.particleSystemSnow.minSize = 0.025;
+        this.particleSystemSnow.maxSize = 0.35;
+
+        // Life time of each particle (random between...
+        this.particleSystemSnow.minLifeTime = 0.1;
+        this.particleSystemSnow.maxLifeTime = 0.6;
+
+        // Emission rate
+        this.particleSystemSnow.emitRate = 4000;
+
+        // Direction of each particle after it has been emitted
+        this.particleSystemSnow.direction1 = new Vector3(-3, 0, -SPEED_Z/2);
+        this.particleSystemSnow.direction2 = new Vector3(3, 8, -SPEED_Z);
+
+        // Angular speed, in radians
+        this.particleSystemSnow.minAngularSpeed = 0;
+        this.particleSystemSnow.maxAngularSpeed = Math.PI/4;
+
+        // Speed
+        this.particleSystemSnow.minEmitPower = .1;
+        this.particleSystemSnow.maxEmitPower = 2;
+        this.particleSystemSnow.updateSpeed = 0.0075;
+
+         // Start particle
+        this.particleSystemSnow.start();
 
         
     }
