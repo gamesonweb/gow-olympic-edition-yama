@@ -40,10 +40,18 @@ The tutorial (yellow) makes sure that you understand the basis of the game
 
  The levels are desinged to fit the color code for sky
 
-### First Level :
+### First level :
 
-The first level (green) is quite easy
-  
+The first level (green) is quite easy, it's the first challenge but you can overcome it easily
 
+### Second level :
 
+The second level (blue) is faster and more difficult than the first one, you might have some troubles with it
 
+### Third level :
+
+The third level (red) include a new mechanic, now the mountain is an obstacle as well
+
+### Last level :
+
+The black pist, the most difficult one! For real heroes!
