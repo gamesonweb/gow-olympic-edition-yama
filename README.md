@@ -8,6 +8,7 @@ Kazenoyama : Kishan Turpin
 https://gamesonweb.github.io/gow-olympic-edition-yama/
 
 #Gameplay video
+https://youtu.be/POyREjM3930
 
 #The team
 
